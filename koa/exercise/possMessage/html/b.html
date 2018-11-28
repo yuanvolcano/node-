@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <ul id='message'></ul>
+  <script>
+    //data:消息
+    //origin:消息来源地址
+    //source:源DOMWindow 对象
+    window.onmessage =function (e){
+      let ulList = document.querySelector('#message');
+      let liDom = document.createElement('li');
+      liDom.innerHTML = `父window发送给子frame的消息：${e.data}`;
+      ulList.appendChild(liDom);
+      e.source.postMessage('不要脸',e.origin);
+    }
+</script>
+</body>
+</html>
