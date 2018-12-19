@@ -25,15 +25,18 @@ module.exports = {
   delCommentById: function (commentId) {
     return Comment.deleteOne({ _id: commentId}).exec();
   },
+  delCommentsByPostId: function (postId) {
+    return Comment.deleteMany({ postId: postId}).exec();
+  },
   // 通过文章 id 获取该文章下所有留言，按留言创建时间排序
-  getComments: function (postId) {     
+  getComments: function (postId) {
     return Comment
     .find({ postId: postId })
     .populate({ path: 'author', model: 'User' })
     .sort({ _id: 1 })
     .addCreatedAt()
     .contentToHtml()
-    .exec()
+    .exec();
   },
   // 通过文章 id 获取该文章下留言数
   getCommentsCount: function (postId) {
