@@ -6,7 +6,7 @@ Post.plugin('addCommentsCount', {
   afterFind: function (posts) {
     return Promise.all(posts.map(function (post) {
       return CommentModel.getCommentsCount(post._id).then(function (commentCount) {
-        post.commentCount = commentCount;
+        post.commentsCount = commentCount;
         return post
       })
     }))
@@ -64,6 +64,7 @@ module.exports = {
       .populate({ path: 'author', model: 'User' })
       .sort({ _id: -1 })
       .addCreatedAt()
+      .addCommentsCount()
       .contentToHtml()
       .exec()
   },

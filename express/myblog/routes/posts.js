@@ -10,6 +10,8 @@ router.get('/', (req, res, next) => {
 
   PostModel.getPosts(author)
     .then(function (posts) {
+      console.log(posts)
+      // res.send(posts);
       res.render('posts', {
         posts: posts
       })
@@ -67,6 +69,7 @@ router.get('/:postId', (req, res, next) => {
     PostModel.incPv(postId)  // pv 加 1
   ])
   .then(function (result) {
+    console.log(typeof result[0])
     const posts = result[0];
     const comments = result[1];
 
@@ -74,7 +77,8 @@ router.get('/:postId', (req, res, next) => {
       throw new Error('该文章不存在');
     }
 
-    res.render('posts', {
+    // res.send(result)
+    res.render('post', {
       post: posts,
       comments: comments
     })
