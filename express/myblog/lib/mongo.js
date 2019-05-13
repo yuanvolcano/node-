@@ -3,7 +3,7 @@ const Mongalass = require('mongolass');
 const mongolass = new Mongalass();
 const moment = require('moment');
 const objectIdToTimestamp = require('objectid-to-timestamp');
-
+mongolass.connect(config.mongodb);
 
 mongolass.plugin('addCreatedAt', {
   afterFind: function (results) {
@@ -19,8 +19,6 @@ mongolass.plugin('addCreatedAt', {
     return result
   }
 })
-
-mongolass.connect(config.mongodb);
 
 exports.User = mongolass.model('User', {
   name: { type: 'string', required: true },

@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const PostModel = require('../models/posts');
+const usersModel = require('../models/users');
 const CommentModel = require('../models/comments');
 const checkLogin = require('../middlewares/check').checkLogin;
 
 // GET /posts 所有用户或者特定用户的文章页
-router.get('/', (req, res, next) => {
-  const author = req.query.author;
-
+router.get('/', checkLogin, async (req, res, next) => {
+  let author = req.query.author;
+  // if (author) {
+  //   let user = await usersModel.getUserByName(author)
+  //   user && (author = user._id)
+  // }
   PostModel.getPosts(author)
     .then(function (posts) {
-      console.log(posts)
-      // res.send(posts);
       res.render('posts', {
         posts: posts
       })
@@ -46,6 +48,7 @@ router.post('/create', checkLogin, (req, res, next) => {
 
     PostModel.create(post)
       .then(result => {
+        // console.log(result)
         post = result.ops[0];
         req.flash('success', '发表成功');
         // 发表成功后跳转到该文章页
@@ -69,7 +72,7 @@ router.get('/:postId', (req, res, next) => {
     PostModel.incPv(postId)  // pv 加 1
   ])
   .then(function (result) {
-    console.log(typeof result[0])
+    // console.log(typeof result[0])
     const posts = result[0];
     const comments = result[1];
 
@@ -94,7 +97,7 @@ router.get('/:postId/edit', (req, res, next) => {
 
   PostModel.getRawPostById(postId)
   .then(function (post) {
-    console.log(post)
+    // console.log(post)
     if (!post) {
       throw new Error('改文章不存在');
     }
@@ -110,7 +113,7 @@ router.get('/:postId/edit', (req, res, next) => {
 // POST /posts/:postId/edit 更新一篇文章
 router.post('/:postId/edit', checkLogin, function (req, res, next) {
   const postId = req.params.postId;
-  console.log(req.params)
+  // console.log(req.params)
   const author = req.session.user._id;
   const title = req.fields.title;
   const content = req.fields.content;

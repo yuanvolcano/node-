@@ -27,7 +27,8 @@ app.use(session({
   resave: true, // 强制更新 session
   saveUninitialized: false, // 设置为 false，强制创建一个 session，即使用户未登录
   cookie: {
-    maxAge: config.session.maxAge // 过期时间， 过期后 cookie 中的 session id 自动
+    maxAge: config.session.maxAge, // 过期时间， 过期后 cookie 中的 session id 自动
+    // secure: config.session.secure
   },
   store: new MongoStore({// 将 session 存储到 mongodb
     url: config.mongodb// mongodb 地址
@@ -86,7 +87,7 @@ app.use(expressWinston.errorLogger({
 }))
 
 app.use(function (err, req, res, next) {
-  console.log(err);
+  // console.log(err);
   req.flash('err', err.message);
   res.redirect('/posts');
 })
