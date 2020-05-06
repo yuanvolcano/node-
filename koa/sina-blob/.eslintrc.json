@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "rules": {
+    "semi": 0,
+    "quotes": ["error", "single"],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }]
+  }
+}
