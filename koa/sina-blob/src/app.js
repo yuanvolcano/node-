@@ -8,9 +8,11 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
-const { REDIS_CONF } = require('./conf/db')
-const { isProd } = require('./utils/env')
+const { REDIS_CONF } = require('./conf/db') // redis 配置
+const { isProd } = require('./utils/env') // 环境
+const { SESSION_SERCET_KEY } = require('./conf/secretKeys') // 秘钥
 
+// api 和 views router 配置
 const index = require('./routes/index')
 const userViewRouter = require('./routes/views/user')
 const userApiRouter = require('./routes/api/user')
@@ -40,7 +42,7 @@ app.use(views(__dirname + '/views', {
 }))
 
 // session 配置
-app.keys = ['UI2_43%$#@hfk']
+app.keys = [SESSION_SERCET_KEY]
 app.use(session({
   key: 'sinablob.sid', // cookie name 默认是 `koa.sid`
   prefix: 'sinablob:sess:', // redis key 的前缀 默认是 `koa:sess:`

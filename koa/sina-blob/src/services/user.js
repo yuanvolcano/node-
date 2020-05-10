@@ -34,6 +34,24 @@ async function getUserInfo (userName, password) {
   return formatUser(res.dataValues)
 }
 
+/**
+ * 创建用户
+ * @param {string} userName 用户名
+ * @param {string} password 密码
+ * @param {number} gender 性别
+ * @param {string} nickName 昵称
+ */
+async function createUser ({ userName, password, gender = 3, nickName }) {
+  const res = User.create({
+    userName,
+    password,
+    gender,
+    nickName : nickName ? nickName : userName
+  })
+  return res.dataValues
+}
+
 module.exports = {
-  getUserInfo
+  getUserInfo,
+  createUser
 }
