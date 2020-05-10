@@ -13,6 +13,7 @@ const { isProd } = require('./utils/env')
 
 const index = require('./routes/index')
 const userViewRouter = require('./routes/views/user')
+const userApiRouter = require('./routes/api/user')
 const errorViewRouter = require('./routes/views/error')
 
 // error handler
@@ -66,7 +67,8 @@ app.use(session({
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页 view
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods()) // 用户页 api
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 错误页 和 404
 
 // error-handling
