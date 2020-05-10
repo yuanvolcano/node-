@@ -9,12 +9,22 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
 const { REDIS_CONF } = require('./conf/db')
+const { isProd } = require('./utils/env')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
+const userViewRouter = require('./routes/views/user')
+const errorViewRouter = require('./routes/views/error')
 
 // error handler
-onerror(app)
+let onerrorConf = {}
+
+if (isProd) {
+  onerrorConf = {
+    redirect: '/errpr'
+  }
+}
+
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(bodyparser({
@@ -56,7 +66,8 @@ app.use(session({
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 错误页 和 404
 
 // error-handling
 app.on('error', (err, ctx) => {
