@@ -3,13 +3,14 @@
  * @author volcano
  */
 
-const { getUserInfo, createUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../models/ResModels')
 const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
   registerFailInfo,
-  loginFailInfo
+  loginFailInfo,
+  deleteUserFailInfo
 } = require('../models/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
@@ -77,8 +78,23 @@ async function login (ctx, userName, password) {
   return new SuccessModel()
 }
 
+/**
+ * 删除当前用户
+ * @param {string} userName 用户名
+ */
+async function deleteCurUser (userName) {
+  // service
+  const result = await deleteUser(userName)
+  if (userName) {
+    // 成功
+    return new SuccessModel()
+  }
+  return new ErrorModel(deleteUserFailInfo)
+}
+
 module.exports = {
   isExist,
   register,
-  login
+  login,
+  deleteCurUser
 }
