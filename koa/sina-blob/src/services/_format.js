@@ -5,10 +5,10 @@
 
 const { DEFAULT_PICTURE } = require('../conf/constant')
 
- /**
-  * 用户默认头像
-  * @param {Object} obj 用户对象
-  */
+/**
+ * 用户默认头像
+ * @param {Object} obj 用户对象
+ */
 function _formatUserPicture (obj) {
   if (obj.picture) {
     obj.picture = DEFAULT_PICTURE
