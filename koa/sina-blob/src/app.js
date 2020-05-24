@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const path = require('path')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
@@ -7,6 +8,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
+const koaStatic = require('koa-static')
 
 const { REDIS_CONF } = require('./conf/db') // redis 配置
 const { isProd } = require('./utils/env') // 环境
@@ -14,8 +16,9 @@ const { SESSION_SERCET_KEY } = require('./conf/secretKeys') // 秘钥
 
 // api 和 views router 配置
 const index = require('./routes/index')
-const userViewRouter = require('./routes/views/user')
 const userApiRouter = require('./routes/api/user')
+const utilsApiRouter = require('./routes/api/utils')
+const userViewRouter = require('./routes/views/user')
 const errorViewRouter = require('./routes/views/error')
 
 // error handler
@@ -35,7 +38,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.resolve(__dirname, '../uploadFiles')))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -69,8 +73,9 @@ app.use(session({
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页 view
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods()) // 用户页 api
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods()) // 用户页 api
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页 view
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 错误页 和 404
 
 // error-handling
