@@ -28,8 +28,6 @@ fsExtra.pathExists(DIST_FOLDER_PATH).then(exist => {
  * @param {string} filePath 文件路径
  */
 async function saveFile ({ name, type, size, filePath }) {
-  console.log('name', name)
-  console.log('size', size)
   if (size > MAX_SIZE) {
     await fsExtra.remove(filePath)
     return new ErrorModel(uploadFileSizeFailInfo)
