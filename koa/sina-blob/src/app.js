@@ -15,10 +15,11 @@ const { isProd } = require('./utils/env') // 环境
 const { SESSION_SERCET_KEY } = require('./conf/secretKeys') // 秘钥
 
 // api 和 views router 配置
-const index = require('./routes/index')
 const userApiRouter = require('./routes/api/user')
 const utilsApiRouter = require('./routes/api/utils')
+const blogHomeApiRouter = require('./routes/api/blogHome')
 const userViewRouter = require('./routes/views/user')
+const blogViewRouter = require('./routes/views/blog')
 const errorViewRouter = require('./routes/views/error')
 
 // error handler
@@ -72,10 +73,11 @@ app.use(session({
 // })
 
 // routes
-app.use(index.routes(), index.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods()) // 用户页 api
 app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods()) // 用户页 api
+app.use(blogHomeApiRouter.routes(), blogHomeApiRouter.allowedMethods()) // 博客首页 api
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods()) // 用户页 view
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods()) // 用户页 blog
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()) // 错误页 和 404
 
 // error-handling
