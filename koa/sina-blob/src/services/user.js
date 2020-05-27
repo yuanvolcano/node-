@@ -76,6 +76,7 @@ async function updateUser (
 ) {
   // 拼接修改内容
   const updateData = {}
+  console.log('newPassword', newPassword)
   if (newPassword) {
     updateData.password = newPassword
   }
@@ -95,6 +96,8 @@ async function updateUser (
   if (password) {
     whereData.password = password
   }
+  console.log('updateData', updateData)
+  console.log('whereData', whereData)
   // 执行修改
   const result = await User.update(updateData, {
     where: whereData
