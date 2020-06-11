@@ -3,6 +3,7 @@
  * @author volcano
  */
 
+const xss = require('xss')
 const { creatBlog } = require('../services/blog')
 const { SuccessModel, ErrorModel } = require('../models/ResModels')
 const { createBlogFailInfo } = require('../models/ErrorInfo')
@@ -14,7 +15,11 @@ const { createBlogFailInfo } = require('../models/ErrorInfo')
 async function createBlog ({ userId, content, image }) {
   try {
     // service
-    const blog = await creatBlog({ userId, content, image })
+    const blog = await creatBlog({
+      userId,
+      content: xss(content),
+      image
+    })
     return new SuccessModel(blog)
   } catch (error) {
     return new ErrorModel(createBlogFailInfo)
