@@ -1,15 +1,15 @@
 /**
- * @description 个人主页 test
+ * @description 广场 test
  * @author volcano
  */
 
 const server = require('../server')
-const { COOKIE, USER_NAME } = require('../test.userInfo')
+const { COOKIE } = require('../test.userInfo')
 
-test('个人主页，加载第一页数据，应该成功', async () => {
+test('广场，加载第一页数据，应该成功', async () => {
   // 定义测试内容
   const res = await server
-    .get(`/api/profile/loadMore/${USER_NAME}/0`)
+    .get(`/api/square/loadMore/0`)
     .set('cookie', COOKIE)
 
   const data = res.body.data
