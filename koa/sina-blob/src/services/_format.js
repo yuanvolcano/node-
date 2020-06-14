@@ -11,7 +11,7 @@ const { timeFormat } = require('../utils/dt')
  * @param {Object} obj 用户对象
  */
 function _formatUserPicture (obj) {
-  if (obj.picture) {
+  if (!obj.picture) {
     obj.picture = DEFAULT_PICTURE
   }
 

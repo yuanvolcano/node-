@@ -1,24 +1,22 @@
 /**
- * @description 个人主页 api 路由
+ * @description 广场 api 路由
  * @author volcano
  */
 
 const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
-const { getProfileBlogList } = require('../../controller/blogProfile')
+const { getSquareBlogList } = require('../../controller/blogSquare')
 const { getBlogListStr } = require('../../utils/blog')
 
-router.prefix('/api/profile')
+router.prefix('/api/square')
 
-// 加载更多
-router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
-  let { userName, pageIndex } = ctx.params
+// 广场加载更多
+router.get('/loadMore/:pageIndex', loginCheck, async (ctx, next) => {
+  let { pageIndex } = ctx.params
   pageIndex = parseInt(pageIndex)
-  const result = await getProfileBlogList(userName, pageIndex)
-
+  const result = await getSquareBlogList(pageIndex)
   // 渲染为模板字符串
   result.data.blogListTpl = getBlogListStr(result.data.blogList)
-
   ctx.body = result
 })
 
