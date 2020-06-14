@@ -22,6 +22,5 @@ test('创建一条微博，应该成功 ', async () => {
     .set('cookie', COOKIE)
 
   expect(res.body.errno).toBe(0)
-  console.log('创建一条微博', res.body)
   BLOG_ID = res.body.data.id
 })
