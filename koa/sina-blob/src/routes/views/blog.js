@@ -7,6 +7,7 @@ const router = require('koa-router')()
 const { loginRedirect } = require('../../middlewares/loginChecks')
 const { getProfileBlogList } = require('../../controller/blogProfile')
 const { getSquareBlogList } = require('../../controller/blogSquare')
+const { getFans } = require('../../controller/userRelation')
 const { isExist } = require('../../controller/user')
 
 // 首页
@@ -43,6 +44,12 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   // 获取微博第一页数据
   const result = await getProfileBlogList(curUserName, 0)
   const { isEmpty, blogList, pageIndex, pageSize, count } = result.data
+
+  // 获取粉丝
+  const fansRes = await getFans(curUserInfo.id)
+  const { userList, count: fansCount } = fansRes.data
+
+  console.log('userList', userList)
   await ctx.render('profile', {
     blogData: {
       isEmpty,
@@ -53,7 +60,11 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     },
     userData: {
       isMe,
-      userInfo: curUserInfo
+      userInfo: curUserInfo,
+      fansData: {
+        count: fansCount,
+        list: userList
+      }
     }
   })
 })
