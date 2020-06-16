@@ -5,9 +5,10 @@
 
 const { getUserByFollower } = require('../services/userRelation')
 const { SuccessModel } = require('../models/ResModels')
+
 /**
  * 根据 userid 获取粉丝列表
- * @param {*} userId 用户 id
+ * @param {number} userId 用户 id
  */
 async function getFans (userId) {
   // service

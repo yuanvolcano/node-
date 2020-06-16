@@ -29,7 +29,7 @@ let onerrorConf = {}
 
 if (isProd) {
   onerrorConf = {
-    redirect: '/errpr'
+    redirect: '/error'
   }
 }
 

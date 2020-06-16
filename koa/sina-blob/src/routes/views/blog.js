@@ -49,7 +49,6 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   const fansRes = await getFans(curUserInfo.id)
   const { userList, count: fansCount } = fansRes.data
 
-  console.log('userList', userList)
   await ctx.render('profile', {
     blogData: {
       isEmpty,
