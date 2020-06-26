@@ -8,5 +8,5 @@
  */
 module.exports = {
   USER_NAME: 'zhangsan',
-  COOKIE: 'sinablob.sid=EwAhky_1pYtJmTdyQi3MasprOeJsgu4R; sinablob.sid.sig=FvFl7iReQSPPSltXX2nSwEDWieU'
+  COOKIE: 'sinablob.sid=nKeaf3aTO1cQkCyRqkvxb6m5usQzCTo7; sinablob.sid.sig=LxAt09ZZaa5gKbrPnq_T2XyIYpo'
 }

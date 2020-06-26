@@ -5,6 +5,7 @@
 
 const { User } = require('../db/models/index')
 const { formatUser } = require('./_format')
+const { addFollower } = require('./userRelation')
 
 /**
  * 获取用户信息
@@ -42,13 +43,16 @@ async function getUserInfo (userName, password) {
  * @param {string} nickName 昵称
  */
 async function createUser ({ userName, password, gender = 3, nickName }) {
-  const res = User.create({
+  const res = await User.create({
     userName,
     password,
     gender,
     nickName : nickName ? nickName : userName
   })
-  return res.dataValues
+  const data = res.dataValues
+  // 自己关注自己
+  addFollower(data.id, data.id)
+  return data
 }
 
 /**
@@ -96,8 +100,6 @@ async function updateUser (
   if (password) {
     whereData.password = password
   }
-  console.log('updateData', updateData)
-  console.log('whereData', whereData)
   // 执行修改
   const result = await User.update(updateData, {
     where: whereData
