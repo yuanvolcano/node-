@@ -3,10 +3,11 @@
  * @author volcano
  */
 
-const { AtRelation } = require('../db/models/index')
+const { AtRelation, Blog, User } = require('../db/models/index')
+const { formatUser, formatBlog } = require('./_format')
 
 /**
- * 创建微博用户关心
+ * 创建微博用户关系
  * @param {number} blogId 微博id
  * @param {number} userId 用户id
  */
@@ -32,7 +33,49 @@ async function getAtRelationCount (userId) {
   return result.count
 }
 
+/**
+ * 获取 @ 用户的微博列表
+ * @param {number} userId userId
+ * @param {number} pageIndex pageIndex
+ * @param {number} pageSize pageSize
+*/
+async function getAtUserBlogList ({ userId, pageIndex, pageSize = 10 }) {
+  const result = await Blog.findAndCountAll({
+    limit: pageSize,
+    offset: pageSize * pageIndex,
+    order: [
+      ['id', 'desc']
+    ],
+    include: [
+      // @ 关系
+      {
+        model: AtRelation,
+        attributes: ['userId', 'blogId'],
+        where: { userId }
+      },
+      // user
+      {
+        model: User,
+        attributes: ['userName', 'nickName', 'picture']
+      }
+    ]
+  })
+  let blogList = result.rows.map(row => row.dataValues)
+  blogList = formatBlog(blogList)
+  blogList = blogList.map(blogItem => {
+    blogItem.user = formatUser(blogItem.user.dataValues)
+    return blogItem
+  })
+
+  // 返回
+  return {
+    const: result.count,
+    blogList
+  }
+}
+
 module.exports = {
   createAtRelation,
-  getAtRelationCount
+  getAtRelationCount,
+  getAtUserBlogList
 }

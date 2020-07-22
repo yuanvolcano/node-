@@ -3,8 +3,9 @@
  * @author volcano
  */
 
-const { getAtRelationCount } = require('../services/atRelation')
+const { getAtRelationCount, getAtUserBlogList } = require('../services/atRelation')
 const { SuccessModel } = require('../models/ResModels')
+const { PAGE_SIZE } = require('../conf/constant')
 
 /**
  * 获取 @ 我的微博数量
@@ -15,6 +16,30 @@ async function getAtMeCount (userId) {
   return new SuccessModel({ count })
 }
 
+/**
+ * 获取 @ 我的微博
+ * @param {number} userId userId
+ * @param {number} pageIndex pageIndex
+ */
+async function getAtMeBlogList (userId, pageIndex = 0) {
+  const result = await getAtUserBlogList({
+    userId,
+    pageIndex,
+    pageSize: PAGE_SIZE
+  })
+
+  const { count, blogList } = result
+  // 返回
+  return new SuccessModel({
+    isEmpty: blogList.length === 0,
+    blogList,
+    pageIndex,
+    pageSize: PAGE_SIZE,
+    count
+  })
+}
+
 module.exports = {
-  getAtMeCount
+  getAtMeCount,
+  getAtMeBlogList
 }

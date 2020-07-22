@@ -10,7 +10,7 @@ const { getSquareBlogList } = require('../../controller/blogSquare')
 const { getFans, getFollowers } = require('../../controller/userRelation')
 const { isExist } = require('../../controller/user')
 const { getHomeBlogList } = require('../../controller/blogHome')
-const { getAtMeCount } = require('../../controller/blogAt')
+const { getAtMeCount, getAtMeBlogList } = require('../../controller/blogAt')
 
 // 首页
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -140,6 +140,33 @@ router.get('/square', loginRedirect, async (ctx, next) => {
       count
     }
   })
+})
+
+// atMe 路由
+router.get('/at-me', loginRedirect, async (ctx, next) => {
+  const { id: userId } = ctx.session.userInfo
+  // 获取 @ 数量
+  const { data: { count: atCount } } = await getAtMeCount(userId)
+
+  // 获取第一页列表
+  const result = await getAtMeBlogList(userId)
+  const { isEmpty, blogList, pageIndex, pageSize, count } = result.data
+
+  await ctx.render('atMe', {
+    atCount,
+    blogData: {
+      isEmpty,
+      blogList,
+      pageIndex,
+      pageSize,
+      count
+    }
+  })
+
+  // 标记为已读
+  if (atCount > 0) {
+
+  }
 })
 
 module.exports = router
