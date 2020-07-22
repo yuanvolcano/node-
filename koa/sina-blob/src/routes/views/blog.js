@@ -12,7 +12,7 @@ const { isExist } = require('../../controller/user')
 const { getHomeBlogList } = require('../../controller/blogHome')
 
 // 首页
-router.get('/', async (ctx, next) => {
+router.get('/', loginRedirect, async (ctx, next) => {
   const userInfo = ctx.session.userInfo
   const { id: userId } = userInfo
 

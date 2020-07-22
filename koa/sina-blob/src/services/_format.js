@@ -54,7 +54,7 @@ function _formatContent (obj) {
   obj.contentFormat = obj.contentFormat.replace(
     REG_FOR_AT_WHO,
     (matchStr, nickName, userName) => {
-      return `<a href="profile/${userName}}">@${nickName}</a>`
+      return `<a href="profile/${userName}">@${nickName}</a>`
     }
   )
   return obj
