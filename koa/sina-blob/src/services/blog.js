@@ -29,7 +29,7 @@ async function getBlogListByUser ({ userName, pageIndex = 0, pageSize = 10 }) {
     userWhereOpts.userName = userName
   }
   // 执行查询
-  const result = await Blog.findAndCountAll ({
+  const result = await Blog.findAndCountAll({
     limit: pageSize,
     offset: pageSize * pageIndex,
     order: [

@@ -13,7 +13,7 @@ const conf = {
   dialect: 'mysql'
 }
 
-if  (isTest) {
+if (isTest) {
   conf.logging = () => {}
 }
 

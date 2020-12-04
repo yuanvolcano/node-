@@ -80,7 +80,6 @@ async function updateUser (
 ) {
   // 拼接修改内容
   const updateData = {}
-  console.log('newPassword', newPassword)
   if (newPassword) {
     updateData.password = newPassword
   }
@@ -104,7 +103,6 @@ async function updateUser (
   const result = await User.update(updateData, {
     where: whereData
   })
-  console.log(result)
   return result[0] > 0 // 修改的行数是否大于0
 }
 

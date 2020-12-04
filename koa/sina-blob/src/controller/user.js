@@ -3,13 +3,14 @@
  * @author volcano
  */
 
+const doCrypto = require('../utils/cryp')
+const { SuccessModel, ErrorModel } = require('../models/ResModels')
 const {
   getUserInfo,
   createUser,
   deleteUser,
   updateUser
 } = require('../services/user')
-const { SuccessModel, ErrorModel } = require('../models/ResModels')
 const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
@@ -19,12 +20,11 @@ const {
   changeInfoFailInfo,
   changePasswordFailInfo
 } = require('../models/ErrorInfo')
-const doCrypto = require('../utils/cryp')
 
- /**
-  * @description 用户名是否存在
-  * @param {*} userName 用户名
-  */
+/**
+ * @description 用户名是否存在
+ * @param {*} userName 用户名
+ */
 async function isExist (userName) {
   const userInfo = await getUserInfo(userName)
   if (userInfo) {
@@ -41,8 +41,8 @@ async function isExist (userName) {
 /**
  * 注册
  * @param {string} userName 用户名
-*  @param {string} password 密码
-*  @param {string} userName 性别（1 男，2 女，3 保密）
+ * @param {string} password 密码
+ * @param {string} userName 性别（1 男，2 女，3 保密）
  */
 async function register ({ userName, password, gender }) {
   const userInfo = await getUserInfo(userName)
@@ -92,7 +92,7 @@ async function login (ctx, userName, password) {
 async function deleteCurUser (userName) {
   // service
   const result = await deleteUser(userName)
-  if (userName) {
+  if (result) {
     // 成功
     return new SuccessModel()
   }

@@ -41,8 +41,7 @@ app.use(async (ctx, next) => {
 
 app.use(async ctx => {
     responseData.sex = 'male'
-
-    throw new Error('one error')
+    // throw new Error('one error')
 })
 
 app.listen(3000, () => {
